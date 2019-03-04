@@ -1,0 +1,25 @@
+PASO 1
+------
+1.1 Crear make
+1.2 Añadir main.c
+1.3 Compilar
+1.4 archivo .gitignore para ingorar ciertos archivos como el ejecutable.exe.
+1.5 Añadir .gitignore al repositorio
+
+PASO 2
+------
+
+PASO 2
+------
+
+PASO 3
+------
+
+PASO 4
+------
+
+PASO 5
+------
+
+PASO 6
+------
