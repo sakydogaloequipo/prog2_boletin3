@@ -8,6 +8,9 @@ PASO 1
 
 PASO 2
 ------
+2.1 Separar archivos TAD a carpeta
+2.2 Modificar Makefile
+
 
 PASO 2
 ------
