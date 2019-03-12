@@ -19,6 +19,8 @@ PASO 2
 
 PASO 3
 ------
+4.1 anotando_en_cola
+4.2 atender_cliente
 
 PASO 4
 ------

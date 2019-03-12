@@ -5,9 +5,28 @@
 #include "TAD\pila.h"
 #include "TAD\listas.h"
 
+
+//enumeramos funciones
+int comprobarNumeroProductos(TIPOELEMENTOCOLA n);
+void imprimirPrimeroCola(TCOLA colaEspera);
+//
+void imprimirListaPluses(TLISTA listaPluses);
+//
+//funciones de menu
+void anotando_en_cola();
+void atender_cliente();
+//Punteros a lista y cola
+//Variable global
+
+TCOLA Q_;
+
+
 int main(int argc, char** argv) {
 	//variables
 	char opcion;
+	//Inicializamos la cola
+	ColaVacia(&Q_);
+	
 	//menu
     do {
         printf("\n--------------------\n");
@@ -22,9 +41,11 @@ int main(int argc, char** argv) {
         switch (opcion) {
             case 'a':
 				printf("Anotando en la cola\n");
+				anotando_en_cola();
                 break;
             case 'b':
 				printf("Atendendiendo cliente\n");
+				atender_cliente();
 				break;
             case 'c':
 				printf("Cobrando pluses\n");
@@ -44,3 +65,41 @@ int main(int argc, char** argv) {
 	exit(0);
 
 }
+void anotando_en_cola(){
+	int n;
+	printf("Introduce el numero de productos que lleva:");
+	scanf(" %d",&n);
+	if(comprobarNumeroProductos(n)){
+		//Añadimos elemento a cola
+		AnadirCola(&Q_, n);
+		printf("Productos aniadidos a la cola\n");
+		imprimirPrimeroCola(Q_);
+		}
+	else printf("El numero no es mayor que cero \n");
+	}
+	
+int comprobarNumeroProductos(TIPOELEMENTOCOLA n){
+	if(n > 0) return 1;
+	else return 0;
+	}
+
+void imprimirPrimeroCola(TCOLA colaEspera){
+	int n;
+	PrimeroCola(colaEspera, &n);
+	printf("El primer cliente tiene %d productos para pasar\n",n);
+	}
+
+void atender_cliente(){
+	int n;
+	PrimeroCola(Q_, &n);	
+	printf("El cliente a atender tiene %d productos para pasar\n",n);
+	EliminarCola(&Q_);
+	printf("Y ha sido atendido\n");
+	PrimeroCola(Q_, &n);	
+	printf("El proximo cliente tiene %d productos para pasar\n",n);
+	}
+	
+void
+imprimirListaPluses(TLISTA listaPluses){
+	
+	}
