@@ -19,6 +19,7 @@ void atender_cliente();
 //Variable global
 
 TCOLA Q_;
+TLISTA L_;
 
 
 int main(int argc, char** argv) {
@@ -26,6 +27,7 @@ int main(int argc, char** argv) {
 	char opcion;
 	//Inicializamos la cola
 	ColaVacia(&Q_);
+	crea(&L_);
 	
 	//menu
     do {
@@ -94,6 +96,9 @@ void atender_cliente(){
 	PrimeroCola(Q_, &n);	
 	printf("El cliente a atender tiene %d productos para pasar\n",n);
 	EliminarCola(&Q_);
+	//Añadir pluses
+	
+	//
 	printf("Y ha sido atendido\n");
 	PrimeroCola(Q_, &n);	
 	printf("El proximo cliente tiene %d productos para pasar\n",n);
