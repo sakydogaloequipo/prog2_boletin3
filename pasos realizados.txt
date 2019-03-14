@@ -1,4 +1,4 @@
-PASO 1
+﻿PASO 1
 ------
 1.1 Crear make
 1.2 Añadir main.c
@@ -24,6 +24,7 @@ PASO 3
 
 PASO 4
 ------
+4.1 probar a mandar
 
 PASO 5
 ------
