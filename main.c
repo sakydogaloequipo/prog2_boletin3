@@ -17,6 +17,9 @@ void imprimirListaPluses(TLISTA *listaPluses);
 //
 int ComprobarValoresAReacudar(TIPOELEMENTOLISTA v);
 TIPOELEMENTOLISTA totalPluses(TLISTA listaPluses);
+//
+void LiberarColaEspera(TCOLA *colaespera);
+void LiberarListaPluses(TCOLA *listapluses);
 //Punteros a lista y cola
 //Variable global
 TCOLA Q_;
@@ -53,6 +56,7 @@ int main(int argc, char** argv) {
                     printf("Productos aniadidos a la cola\n");
                     imprimirPrimeroCola(Q_);
                 } else printf("El numero no es mayor que cero \n");
+                
                 break;
 
             case 'b':
@@ -169,7 +173,7 @@ TIPOELEMENTOLISTA totalPluses(TLISTA listaPluses) {
     return acum;
 }
 
-/*void LiberarListaPluses(TCOLA *listapluses) {
+void LiberarListaPluses(TCOLA *listapluses) {
     if (listapluses = NULL) {
         destruye(*listapluses);
         listapluses = NULL;
@@ -178,8 +182,11 @@ TIPOELEMENTOLISTA totalPluses(TLISTA listaPluses) {
 
 void LiberarColaEspera(TCOLA *colaespera) {
     if (colaespera = NULL && !EsColaVacia(colaespera)) {
-        EliminarCola(colaespera);
+        do{
+            EliminarCola(&Q_);
+        }while (!EsColaVacia (Q_));
     }
+    
     free(*colaespera);
  *colaespera = NULL;
-}*/
+}
