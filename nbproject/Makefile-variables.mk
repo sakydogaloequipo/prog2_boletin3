@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=Cygwin-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/Cygwin-Windows
-CND_ARTIFACT_NAME_Debug=mercaben
-CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/mercaben
+CND_ARTIFACT_NAME_Debug=prog2_boletin3
+CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/prog2_boletin3
 CND_PACKAGE_DIR_Debug=dist/Debug/Cygwin-Windows/package
-CND_PACKAGE_NAME_Debug=mercaben.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/mercaben.tar
+CND_PACKAGE_NAME_Debug=prog2boletin3.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/prog2boletin3.tar
 # Release configuration
 CND_PLATFORM_Release=Cygwin-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/Cygwin-Windows
-CND_ARTIFACT_NAME_Release=mercaben
-CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/mercaben
+CND_ARTIFACT_NAME_Release=prog2_boletin3
+CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/prog2_boletin3
 CND_PACKAGE_DIR_Release=dist/Release/Cygwin-Windows/package
-CND_PACKAGE_NAME_Release=mercaben.tar
-CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/mercaben.tar
+CND_PACKAGE_NAME_Release=prog2boletin3.tar
+CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/prog2boletin3.tar
 #
 # include compiler specific variables
 #

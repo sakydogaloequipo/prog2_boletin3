@@ -1,9 +1,10 @@
+//prueba
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "TAD\cola.h"
-#include "TAD\pila.h"
-#include "TAD\listas.h"
+#include "TAD/cola.h"
+#include "TAD/pila.h"
+#include "TAD/listas.h"
 
 void LiberarListaPluses(TCOLA *listapluses) {
     if (listapluses = NULL) {
@@ -113,6 +114,16 @@ void atender_cliente() {
     if (respuesta == 0) {
         PrimeroCola(Q_, &n);
         printf("El cliente a atender tiene %d productos para pasar\n", n);
+        printf("pluses a anotar %.2f\n", n * 0.5);
+        inserta(L_, fin(L_), n * 0.5 );
+        
+        float valor;        
+        recupera(L_,fin(L_) , &valor);
+
+        printf("Plus insertado en la lista %.2f\n", valor );
+        
+        imprimirListaPluses(L_);
+        
         EliminarCola(&Q_);
         printf("Y ha sido atendido\n");
         respuesta = EsColaVacia(Q_);
@@ -128,7 +139,7 @@ void atender_cliente() {
     //Añadir pluses
     //ler o primeiro elemento da cola e *0.5 almaceno o resultado nunha variable que meto en lista
     /*PrimeroCola(Q_, &aux);
-    aux = aux * 0.5;
+    aux += aux * 0.5;
     inserta(L_, s, aux);*/
 
 
@@ -136,10 +147,13 @@ void atender_cliente() {
 
 void imprimirListaPluses(TLISTA listaPluses) {
     int i;
+    printf("empezando\n");
     TNODOLISTA s = 0;
     TIPOELEMENTOLISTA siguiente_;
+    
     s = primero(L_);
-    for (i = 0; i < longitud(L_); i++) {
+    
+    for (i = 0; i < longitud(listaPluses); i++) {
         recupera(L_, s, &siguiente_);
         printf("los pluses son: %f", siguiente);
         s = siguiente(L_, s);

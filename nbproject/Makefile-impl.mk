@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=MercaBen
+PROJECTNAME=prog2_boletin3
 
 # Active Configuration
 DEFAULTCONF=Debug
