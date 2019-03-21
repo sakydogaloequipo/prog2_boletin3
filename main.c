@@ -17,6 +17,7 @@ void imprimirListaPluses(TLISTA *listaPluses);
 //
 int ComprobarValoresAReacudar(TIPOELEMENTOLISTA v);
 TIPOELEMENTOLISTA totalPluses(TLISTA listaPluses);
+void recaudarPluses(TLISTA *listaPluses, TIPOELEMENTOLISTA dineroARecaudar, TIPOELEMENTOLISTA *totalPlusesRecaudados);
 //
 void LiberarColaEspera(TCOLA *colaespera);
 void LiberarListaPluses(TCOLA *listapluses);
@@ -28,6 +29,8 @@ TLISTA L_;
 int main(int argc, char** argv) {
     //variables
     char opcion;
+    TIPOELEMENTOCOLA PlusesDisponibles = 0;
+    TIPOELEMENTOLISTA clientesAtendidos = 0, clientesEnEspera = 0;
     //Inicializamos la cola
     ColaVacia(&Q_);
     crea(&L_);
@@ -56,6 +59,7 @@ int main(int argc, char** argv) {
                     printf("Productos aniadidos a la cola\n");
                     imprimirPrimeroCola(Q_);
                 } else printf("El numero no es mayor que cero \n");
+                clientesEnEspera += 1;
                 
                 break;
 
@@ -69,8 +73,8 @@ int main(int argc, char** argv) {
                 if (respuesta == 0) {
                     PrimeroCola(Q_, &m);
                     printf("El cliente a atender tiene %d productos para pasar\n", m);
-                    plus = m * PLUS
-                            printf("pluses a anotar %.2f\n", plus);
+                    plus = m * PLUS;
+                    printf("pluses a anotar %.2f\n", plus);
                     inserta(&L_, fin(L_), plus);
                     printf("insertado\n");
 
@@ -86,42 +90,51 @@ int main(int argc, char** argv) {
 
 
                 } else printf("ahora mismo no hay clientes\n");
-
+                clientesAtendidos +=1;
+                clientesEnEspera -=1;
 
                 break;
 
             case 'c':
                 printf("Cobrando pluses\n");
                 TIPOELEMENTOLISTA DineroARecaudar, acum;
-                
                 printf("dinero que quiere extraer:\n");
                 scanf(" %d", &DineroARecaudar);
                 if (ComprobarValoresAReacudar(DineroARecaudar)) {
-                    totalPluses(L_);
                     acum = totalPluses(L_);
                     printf("pluses acumulados:%.2f",acum);
-                    
-                            
                 } else printf("El numero no es mayor que cero \n");
 
                 break;
 
             case 'd':
                 printf("Obteniendo estadisticas\n");
-                
+                printf("el numero de clientes atendidos es: %f",clientesAtendidos);
+                printf("el numero de clientes en espera es: %f",clientesEnEspera);
+                printf("numero de pluses recuadados");
+                printf("numero de pluses disponibles");
                 break;
 
             case 'e':
                 printf("librerando memoria");
+                printf("desea salir del programa? -------> e(exit)/n(no)");
+                scanf(" %c", &opcion);
+                switch (opcion) {
+                    case 'e':
+                        printf("librerando memoria");
+                        LiberarListaPluses(&L_);
+                        LiberarColaEspera(&Q_);
+                        break;
+                    case 'n':
+                        break;
+                }      
                 break;
             default: printf("Opcion incorrecta\n");
         }
     } while (opcion != 'e');
     return (EXIT_SUCCESS);
 
-    //fin del programa
     exit(0);
-
 }
 
 int comprobarNumeroProductos(TIPOELEMENTOCOLA n) {
@@ -138,15 +151,13 @@ void imprimirPrimeroCola(TCOLA colaEspera) {
 void imprimirListaPluses(TLISTA *listaPluses) {
     int i;
     printf("imprimiendo\n");
-    TNODOLISTA s = 0;
-    TIPOELEMENTOLISTA siguiente_;
-
-    s = primero(L_);
+    TNODOLISTA p = 0;
+    TIPOELEMENTOLISTA SigElem;
+    p = primero(L_);
     for (i = 0; i < longitud(listaPluses); i++) {
-        recupera(L_, s, &siguiente_);
-        printf("los pluses son: %.2f\n", siguiente_);
-        s = siguiente(L_, s);
-
+        recupera(L_, p, &SigElem);
+        printf("los pluses son: %.2f\n", SigElem);
+        p = siguiente(L_, p);
     }
 }
 
@@ -155,36 +166,43 @@ int ComprobarValoresAReacudar(TIPOELEMENTOLISTA v) {
     else return 0;
 }
 
-void recaudarPluses(TLISTA*listaPluses, TIPOELEMENTOLISTA dineroARecaudar) {
-}
+void recaudarPluses(TLISTA *listaPluses, TIPOELEMENTOLISTA dineroARecaudar, TIPOELEMENTOLISTA *totalPlusesRecaudados) {
+    TIPOELEMENTOLISTA valor, valormin, total = 0, diferencia;
+    int i, lon;
+    TNODOLISTA tnodo, tnodomin;
+    while (total < dineroARecaudar) {
+        lon = longitud(*listaPluses);
+        tnodo = primero(*listaPluses);
+    }}
+
 
 TIPOELEMENTOLISTA totalPluses(TLISTA listaPluses) {
     int i;
-    printf("acumulando\n");
     TNODOLISTA s = 0;
-    TIPOELEMENTOLISTA siguiente_, acum = 0;
-
+    TIPOELEMENTOLISTA SigElem, acum = 0;
+    
     s = primero(L_);
     for (i = 0; i < longitud(listaPluses); i++) {
-        recupera(L_, s, &siguiente_);
+        recupera(L_, s, &SigElem);
         s = siguiente(L_, s);
-        acum += siguiente_;
+        acum += SigElem;
+        
     }
     return acum;
 }
 
-void LiberarListaPluses(TCOLA *listapluses) {
-    if (listapluses = NULL) {
-        destruye(*listapluses);
-        listapluses = NULL;
+void LiberarListaPluses(TLISTA *listapluses) {
+    if (*listapluses = NULL) {
+        destruye(listapluses);
+        *listapluses = NULL;
     }
 }
 
 void LiberarColaEspera(TCOLA *colaespera) {
-    if (colaespera = NULL && !EsColaVacia(colaespera)) {
+    if(*colaespera == NULL && !EsColaVacia(*colaespera)) {
         do{
-            EliminarCola(&Q_);
-        }while (!EsColaVacia (Q_));
+            EliminarCola(colaespera);
+        }while (!EsColaVacia (*colaespera));
     }
     
     free(*colaespera);
