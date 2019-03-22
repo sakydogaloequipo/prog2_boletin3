@@ -29,8 +29,8 @@ TLISTA L_;
 int main(int argc, char** argv) {
     //variables
     char opcion;
-    TIPOELEMENTOCOLA PlusesDisponibles = 0;
-    TIPOELEMENTOLISTA clientesAtendidos = 0, clientesEnEspera = 0;
+    float PlusesDisponibles = 0.0;
+    int clientesAtendidos = 0, clientesEnEspera = 0;
     //Inicializamos la cola
     ColaVacia(&Q_);
     crea(&L_);
@@ -48,7 +48,6 @@ int main(int argc, char** argv) {
         scanf(" %c", &opcion);
         switch (opcion) {
             case 'a':
-
                 printf("Anotando en la cola\n");
                 int n;
                 printf("Introduce el numero de productos que lleva:");
@@ -58,8 +57,10 @@ int main(int argc, char** argv) {
                     AnadirCola(&Q_, n);
                     printf("Productos aniadidos a la cola\n");
                     imprimirPrimeroCola(Q_);
+                    //solo contamos clientes en espera si lo añadimos a la cola
+                    clientesEnEspera += 1;
                 } else printf("El numero no es mayor que cero \n");
-                clientesEnEspera += 1;
+                
                 
                 break;
 
@@ -77,22 +78,23 @@ int main(int argc, char** argv) {
                     printf("pluses a anotar %.2f\n", plus);
                     inserta(&L_, fin(L_), plus);
                     printf("insertado\n");
-
                     imprimirListaPluses(L_);
-
                     EliminarCola(&Q_);
                     printf("Y ha sido atendido\n");
+                    //aumentamos cliente atendidos y reducimos clientes en espera
+                    clientesAtendidos +=1;
+                    clientesEnEspera -=1;
                     respuesta = EsColaVacia(Q_);
                     if (respuesta == 0) {
                         PrimeroCola(Q_, &m);
                         printf("El proximo cliente tiene %d productos para pasar\n", m);
-                    } else printf("hemos terminado la cola");
+                    } else printf("hemos terminado la cola\n");
 
 
                 } else printf("ahora mismo no hay clientes\n");
-                clientesAtendidos +=1;
-                clientesEnEspera -=1;
-
+                //imprimimos clientes en espera y atendidos siempre que intentemos atender
+                printf("Clientes atendidos %d\n",clientesAtendidos);
+                printf("Clientes en espera %d\n",clientesEnEspera);
                 break;
 
             case 'c':
@@ -150,7 +152,7 @@ void imprimirPrimeroCola(TCOLA colaEspera) {
 
 void imprimirListaPluses(TLISTA *listaPluses) {
     int i;
-    printf("imprimiendo\n");
+    printf("imprimiendo lista de pluses\n");
     TNODOLISTA p = 0;
     TIPOELEMENTOLISTA SigElem;
     p = primero(L_);

@@ -1,2 +1,3 @@
 ejecutable.exe
 *.o
+*.stackdump
