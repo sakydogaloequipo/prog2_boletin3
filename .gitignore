@@ -1,3 +1,4 @@
 ejecutable.exe
 *.o
 *.stackdump
+no enviar.c
