@@ -155,11 +155,11 @@ void imprimirListaPluses(TLISTA *listaPluses) {
     printf("imprimiendo lista de pluses\n");
     TNODOLISTA p = 0;
     TIPOELEMENTOLISTA SigElem;
-    p = primero(L_);
+    p = primero(listaPluses);
     for (i = 0; i < longitud(listaPluses); i++) {
-        recupera(L_, p, &SigElem);
+        recupera(listaPluses, p, &SigElem);
         printf("los pluses son: %.2f\n", SigElem);
-        p = siguiente(L_, p);
+        p = siguiente(listaPluses, p);
     }
 }
 
