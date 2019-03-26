@@ -15,8 +15,8 @@ void imprimirPrimeroCola(TCOLA colaEspera);
 //
 void imprimirListaPluses(TLISTA *listaPluses);
 //
-int ComprobarValoresAReacudar(TIPOELEMENTOLISTA v);
-TIPOELEMENTOLISTA totalPluses(TLISTA listaPluses);
+int ComprobarValorAReacudar(TIPOELEMENTOLISTA v);
+TIPOELEMENTOLISTA totalPluses(TLISTA *listaPluses);
 void recaudarPluses(TLISTA *listaPluses, TIPOELEMENTOLISTA dineroARecaudar, TIPOELEMENTOLISTA *totalPlusesRecaudados);
 //
 void LiberarColaEspera(TCOLA *colaespera);
@@ -29,8 +29,8 @@ TLISTA L_;
 int main(int argc, char** argv) {
     //variables
     char opcion;
-    float PlusesDisponibles = 0.0;
-    int clientesAtendidos = 0, clientesEnEspera = 0;
+    TIPOELEMENTOCOLA clientesAtendidos = 0, clientesEnEspera = 0;
+    TIPOELEMENTOLISTA acum = 0.0,PlusesDisponibles = 0.0;
     //Inicializamos la cola
     ColaVacia(&Q_);
     crea(&L_);
@@ -99,31 +99,40 @@ int main(int argc, char** argv) {
 
             case 'c':
                 printf("Cobrando pluses\n");
-                TIPOELEMENTOLISTA DineroARecaudar, acum;
-                printf("dinero que quiere extraer:\n");
-                scanf(" %d", &DineroARecaudar);
-                if (ComprobarValoresAReacudar(DineroARecaudar)) {
-                    acum = totalPluses(L_);
-                    printf("pluses acumulados:%.2f",acum);
+                TIPOELEMENTOLISTA DineroARecaudar;
+                
+                printf("Lista de pluses actual:\n");
+                imprimirListaPluses(L_);
+                printf("Total de pluses acumulados %.2f\n",totalPluses(L_));
+                printf("Indica la cantidad que quiere retirar:");
+                scanf(" %f", &DineroARecaudar);
+                
+                if (ComprobarValorAReacudar(DineroARecaudar)) {
+					//
+					if(totalPluses(L_)>=DineroARecaudar){
+						printf("Recaudamos\n");
+						recaudarPluses(L_,DineroARecaudar,&acum);
+						}
+					else printf("No se puede recaudar %.2f, solo hay %.2f\n", DineroARecaudar,totalPluses(L_));
                 } else printf("El numero no es mayor que cero \n");
+
 
                 break;
 
             case 'd':
                 printf("Obteniendo estadisticas\n");
-                printf("el numero de clientes atendidos es: %f",clientesAtendidos);
-                printf("el numero de clientes en espera es: %f",clientesEnEspera);
-                printf("numero de pluses recuadados");
-                printf("numero de pluses disponibles");
+                printf("el numero de clientes atendidos es: %d\n",clientesAtendidos);
+                printf("el numero de clientes en espera es: %d\n",clientesEnEspera);
+                printf("numero de pluses recuadados hasta ahora %.2f\n", acum);
+                printf("numero de pluses disponibles %.2f\n",totalPluses(L_));
                 break;
 
             case 'e':
-                printf("librerando memoria");
                 printf("desea salir del programa? -------> e(exit)/n(no)");
                 scanf(" %c", &opcion);
                 switch (opcion) {
                     case 'e':
-                        printf("librerando memoria");
+                        printf("librerando memoria\n");
                         LiberarListaPluses(&L_);
                         LiberarColaEspera(&Q_);
                         break;
@@ -135,8 +144,6 @@ int main(int argc, char** argv) {
         }
     } while (opcion != 'e');
     return (EXIT_SUCCESS);
-
-    exit(0);
 }
 
 int comprobarNumeroProductos(TIPOELEMENTOCOLA n) {
@@ -148,6 +155,95 @@ void imprimirPrimeroCola(TCOLA colaEspera) {
     int n;
     PrimeroCola(colaEspera, &n);
     printf("El primer cliente tiene %d productos para pasar\n", n);
+}
+
+
+int ComprobarValorAReacudar(TIPOELEMENTOLISTA v) {
+    if (v > 0) return 1;
+    else return 0;
+}
+
+TNODOLISTA minimo_lista(TLISTA *listaPluses){
+    int i;
+    TNODOLISTA s = 0;
+    TIPOELEMENTOLISTA SigElem,minimo;
+    TNODOLISTA MINIMO_;
+    printf("buscando minimo\n");
+    
+    s = primero(listaPluses);
+    recupera(listaPluses, s, &SigElem);
+    //minimo inicial
+    minimo = SigElem;
+    MINIMO_ = s;
+    for (i = 0; i < longitud(listaPluses); i++) {
+        recupera(listaPluses, s, &SigElem);
+        printf("->%.2f\n",SigElem);
+        if (minimo > SigElem){
+			//si encontramos uno mas pequenio guardamos puntero para devolver
+			//y valor para visualizar
+			MINIMO_ = s;
+			minimo = SigElem;
+			}
+        s = siguiente(listaPluses, s);
+    }
+    printf("el mas pequenio.... %.2f\n",minimo);
+    return MINIMO_;
+	}
+
+
+void recaudarPluses(TLISTA *listaPluses, TIPOELEMENTOLISTA dineroARecaudar, TIPOELEMENTOLISTA *totalPlusesRecaudados) {
+    TIPOELEMENTOLISTA valor, valormin, total = 0, diferencia;
+    int i, lon;
+    TNODOLISTA tnodo, tnodomin;
+    TIPOELEMENTOLISTA elmaspequenio, dineroRecaudado;
+    dineroRecaudado = 0.0;
+    imprimirListaPluses(listaPluses);
+    printf("A recaudar: %.2f lo recaudado %.2f\n",dineroARecaudar,dineroRecaudado );
+    i = 0;
+    do{
+		//buscamos el más pequeño
+		i++;
+		tnodomin = minimo_lista(listaPluses);	
+		recupera(listaPluses,tnodomin,&elmaspequenio);	
+		printf("(%d) Valor mas pequenio %.2f\n",i,elmaspequenio);
+		if (elmaspequenio <= dineroARecaudar){
+			dineroRecaudado += elmaspequenio;
+			dineroARecaudar -= elmaspequenio;
+			suprime(&listaPluses,tnodomin);
+			//quitamos
+			} else {
+				//descontamos
+				//modifica el valor del plus
+				modifica(listaPluses, tnodomin, elmaspequenio-dineroARecaudar);
+				dineroRecaudado += dineroARecaudar;
+				dineroARecaudar -= dineroARecaudar;
+				
+				}
+		imprimirListaPluses(L_);
+
+        printf("A recaudar: %.2f lo recaudado %.2f\n",dineroARecaudar,dineroRecaudado );
+		} while(dineroARecaudar!=0.0);
+		
+		printf("Hemos recaudado %.2f\n", dineroRecaudado );
+		//Acumulamos pluses recaudados en contador
+		*totalPlusesRecaudados += dineroRecaudado;
+        printf("Lista de pluses queda de la siguiente forma:\n");
+        imprimirListaPluses(L_);
+        printf("Con un total de pluses pendiente de recaudar %.2f\n",totalPluses(L_));   
+
+    }
+
+TIPOELEMENTOLISTA totalPluses(TLISTA *listaPluses) {
+    int i;
+    TNODOLISTA s = 0;
+    TIPOELEMENTOLISTA SigElem, acum = 0;
+    s = primero(listaPluses);
+    for (i = 0; i < longitud(listaPluses); i++) {
+        recupera(listaPluses, s, &SigElem);
+        s = siguiente(listaPluses, s);
+        acum += SigElem;
+    }
+    return acum;
 }
 
 void imprimirListaPluses(TLISTA *listaPluses) {
@@ -163,50 +259,20 @@ void imprimirListaPluses(TLISTA *listaPluses) {
     }
 }
 
-int ComprobarValoresAReacudar(TIPOELEMENTOLISTA v) {
-    if (v > 0) return 1;
-    else return 0;
-}
-
-void recaudarPluses(TLISTA *listaPluses, TIPOELEMENTOLISTA dineroARecaudar, TIPOELEMENTOLISTA *totalPlusesRecaudados) {
-    TIPOELEMENTOLISTA valor, valormin, total = 0, diferencia;
-    int i, lon;
-    TNODOLISTA tnodo, tnodomin;
-    while (total < dineroARecaudar) {
-        lon = longitud(*listaPluses);
-        tnodo = primero(*listaPluses);
-    }}
-
-
-TIPOELEMENTOLISTA totalPluses(TLISTA listaPluses) {
-    int i;
-    TNODOLISTA s = 0;
-    TIPOELEMENTOLISTA SigElem, acum = 0;
-    
-    s = primero(L_);
-    for (i = 0; i < longitud(listaPluses); i++) {
-        recupera(L_, s, &SigElem);
-        s = siguiente(L_, s);
-        acum += SigElem;
-        
-    }
-    return acum;
-}
-
 void LiberarListaPluses(TLISTA *listapluses) {
-    if (*listapluses = NULL) {
+    if (*listapluses != NULL) {
         destruye(listapluses);
         *listapluses = NULL;
     }
 }
 
 void LiberarColaEspera(TCOLA *colaespera) {
-    if(*colaespera == NULL && !EsColaVacia(*colaespera)) {
+    if(*colaespera != NULL && !EsColaVacia(*colaespera)) {
         do{
             EliminarCola(colaespera);
         }while (!EsColaVacia (*colaespera));
     }
     
     free(*colaespera);
- *colaespera = NULL;
+	*colaespera = NULL;
 }
