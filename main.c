@@ -28,12 +28,25 @@ TLISTA L_;
 
 int main(int argc, char** argv) {
     //variables
+    int i;
     char opcion;
-    TIPOELEMENTOCOLA clientesAtendidos = 0, clientesEnEspera = 0;
+    TIPOELEMENTOCOLA clientesAtendidos = 0, clientesEnEspera = 0, clientecomando;
     TIPOELEMENTOLISTA acum = 0.0,PlusesDisponibles = 0.0;
     //Inicializamos la cola
     ColaVacia(&Q_);
     crea(&L_);
+    
+    
+    if(argv > 1){
+        for(i=0;i<= argc-1;i++){
+            clientecomando = atoi(argv[i]);
+            if(clientecomando>0){
+                AnadirCola(&Q_,clientecomando);
+                clientesEnEspera++;
+            }
+        }
+        imprimirPrimeroCola(Q_);
+    }
 
     //menu
     do {
